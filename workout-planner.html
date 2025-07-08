@@ -1,0 +1,1909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexForge - Craft Your Perfect Workout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            overflow-x: hidden;
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-animate-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate-left.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-animate-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate-right.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-animate-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate-scale.animate {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .navbar.scrolled {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo::after {
+            content: '⚡';
+            margin-left: 8px;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 28px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        .nav-links li {
+            margin: 0;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 4px;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .cta-btn.disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .cta-btn.disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 24px 80px;
+            text-align: center;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 24px;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            margin-bottom: 40px;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 60px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .hero-cta.disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .hero-cta.disabled:hover {
+            transform: none;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 32px;
+            margin-top: 60px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .stat-item {
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 80px 0;
+            background: white;
+            margin: 40px 0;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 0 40px;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 0 40px;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover .step-number {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .step-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+        }
+
+        /* Success Stories Section */
+        .success-stories {
+            padding: 80px 0;
+            background: var(--gray-50);
+            margin: 40px 0;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            padding: 0 40px;
+        }
+
+        .story-card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .story-quote {
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            font-style: italic;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .story-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .story-card:hover .author-avatar {
+            transform: scale(1.1);
+        }
+
+        .author-info h4 {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 80px 0;
+            background: white;
+            margin: 40px 0;
+            border-radius: 24px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: var(--gray-50);
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin: 16px -16px;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 24px 0;
+            text-align: left;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: var(--primary-color);
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 0 24px 0;
+            color: var(--gray-600);
+            line-height: 1.6;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Form Section */
+        .form-section {
+            background: white;
+            border-radius: 24px;
+            box-shadow: var(--shadow-xl);
+            margin: 40px 0;
+            overflow: hidden;
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .form-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .form-container {
+            padding: 48px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .form-group input:disabled,
+        .form-group select:disabled {
+            background: var(--gray-100);
+            color: var(--gray-500);
+            cursor: not-allowed;
+        }
+
+        .form-group input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .submit-btn:disabled {
+            background: var(--gray-400);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .submit-btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Session Notice */
+        .session-notice {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+            animation: slideInDown 0.5s ease;
+        }
+
+        .session-notice h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .session-notice p {
+            opacity: 0.95;
+            margin-bottom: 16px;
+        }
+
+        .session-notice small {
+            opacity: 0.8;
+            font-size: 0.875rem;
+        }
+
+        /* Loading State */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 60px 48px;
+            background: var(--gray-50);
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-text {
+            font-weight: 500;
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        /* Results Section */
+        .results {
+            display: none;
+            margin: 40px 0;
+        }
+
+        .report-header {
+            background: white;
+            border-radius: 16px 16px 0 0;
+            padding: 32px 40px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .report-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .report-subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .report-meta {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--gray-500);
+        }
+
+        .meta-icon {
+            width: 16px;
+            height: 16px;
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        .report-content {
+            background: white;
+            border-radius: 0 0 16px 16px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .workout-week {
+            padding: 0 40px 40px;
+        }
+
+        .week-header {
+            padding: 24px 0;
+            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: 32px;
+        }
+
+        .week-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .workout-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .workout-day {
+            background: var(--gray-50);
+            border-radius: 12px;
+            padding: 24px;
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .workout-day:hover {
+            background: white;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .day-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .day-duration {
+            font-size: 0.875rem;
+            color: var(--gray-500);
+            background: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .exercise-list {
+            list-style: none;
+            display: grid;
+            gap: 12px;
+        }
+
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+            transition: all 0.2s ease;
+        }
+
+        .exercise-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .exercise-name {
+            font-weight: 500;
+            color: var(--gray-800);
+        }
+
+        .exercise-specs {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .report-notes {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 32px 40px;
+            margin-top: 32px;
+            border-radius: 16px;
+        }
+
+        .notes-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .notes-content {
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            padding: 60px 24px 40px;
+            text-align: center;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 16px;
+        }
+
+        .footer-text {
+            color: var(--gray-400);
+            margin-bottom: 32px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            padding-top: 32px;
+            border-top: 1px solid var(--gray-700);
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: var(--danger-color);
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Animation states */
+        .stat-number.counting {
+            color: var(--accent-color);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 1200px) {
+            .nav-container {
+                max-width: 100%;
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                gap: 16px;
+            }
+            
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .hero {
+                padding: 120px 16px 60px;
+            }
+
+            .main-content {
+                padding: 0 16px;
+            }
+
+            .form-container,
+            .workout-week,
+            .faq-container {
+                padding: 32px 24px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .steps-grid,
+            .stories-grid {
+                grid-template-columns: 1fr;
+                padding: 0 24px;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .section-header {
+                padding: 0 24px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .report-header,
+            .workout-week {
+                padding: 24px 16px;
+            }
+
+            .workout-day {
+                padding: 16px;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .exercise-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">FlexForge</a>
+            <ul class="nav-links">
+                <li><a href="#home">Why FlexForge</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#stories">Testimonials</a></li>
+                <li><a href="#sample-plan">Sample Plan</a></li>
+                <li><a href="#coming-soon">Coming Soon</a></li>
+                <li><a href="#faq">FAQ</a></li>
+            </ul>
+            <a href="#" class="cta-btn" id="navCtaBtn" onclick="showPlanForm()">Get Plan</a>
+        </div>
+    </nav>
+
+    <!-- Landing Page Content -->
+    <div id="landingPage">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div class="hero-container">
+                <h1>Craft Your Perfect Workout with AI</h1>
+                <p class="subtitle">Transform your fitness journey with precision-crafted workout plans. Our AI analyzes your goals, fitness level, and schedule to forge the perfect training program just for you.</p>
+                
+                <a href="#" class="hero-cta" id="heroCtaBtn" onclick="showPlanForm()">Get My Free Workout Plan</a>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="600" data-suffix="+">0</span>
+                        <span class="stat-label">Total Workouts Crafted</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="27" data-suffix="+">0</span>
+                        <span class="stat-label">New workout crafter (24 hours)</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="94" data-suffix="%">0</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="247" data-suffix="">0</span>
+                        <span class="stat-label">Available</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="main-content">
+            <!-- How It Works Section -->
+            <section class="how-it-works scroll-animate" id="how-it-works">
+                <div class="section-header scroll-animate">
+                    <h2 class="section-title">How FlexForge Works</h2>
+                    <p class="section-subtitle">Three simple steps to your personalized workout plan</p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card scroll-animate-left">
+                        <div class="step-number">1</div>
+                        <h3 class="step-title">Share Your Details</h3>
+                        <p class="step-description">Tell us about your fitness goals, current level, age, and how many days you want to train per week.</p>
+                    </div>
+                    <div class="step-card scroll-animate">
+                        <div class="step-number">2</div>
+                        <h3 class="step-title">AI Crafts Your Plan</h3>
+                        <p class="step-description">Our advanced AI analyzes your profile and generates a complete workout plan optimized for your specific needs.</p>
+                    </div>
+                    <div class="step-card scroll-animate-right">
+                        <div class="step-number">3</div>
+                        <h3 class="step-title">Start Training</h3>
+                        <p class="step-description">Get your detailed workout schedule with exercises, sets, reps, and professional guidance to achieve your goals.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Success Stories Section -->
+            <section class="success-stories scroll-animate" id="stories">
+                <div class="section-header scroll-animate">
+                    <h2 class="section-title">Success Stories</h2>
+                    <p class="section-subtitle">Real results from real people using FlexForge</p>
+                </div>
+
+                <div class="stories-grid">
+                    <div class="story-card scroll-animate-left">
+                        <p class="story-quote">"FlexForge completely transformed my approach to fitness. In just 8 weeks, I lost 15 pounds and gained more energy than I've had in years. The AI really understood my busy schedule!"</p>
+                        <div class="story-author">
+                            <div class="author-avatar">S</div>
+                            <div class="author-info">
+                                <h4>Sarah Chen</h4>
+                                <p>Marketing Manager, Lost 15 lbs</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story-card scroll-animate-scale">
+                        <p class="story-quote">"As a beginner, I was intimidated by fitness. FlexForge gave me the confidence with a plan that started easy and progressively challenged me. Now I'm stronger than ever!"</p>
+                        <div class="story-author">
+                            <div class="author-avatar">M</div>
+                            <div class="author-info">
+                                <h4>Mike Rodriguez</h4>
+                                <p>Teacher, Gained 20 lbs muscle</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story-card scroll-animate-right">
+                        <p class="story-quote">"The AI perfectly adapted to my post-injury limitations. My physical therapist was amazed at how well the program complemented my recovery. Brilliant technology!"</p>
+                        <div class="story-author">
+                            <div class="author-avatar">J</div>
+                            <div class="author-info">
+                                <h4>Jessica Kim</h4>
+                                <p>Nurse, Post-injury recovery</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section scroll-animate" id="faq">
+                <div class="section-header scroll-animate">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Everything you need to know about FlexForge</p>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            Is FlexForge really free?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Yes! FlexForge is completely free to use. We believe everyone deserves access to quality fitness planning. There are no hidden fees, subscriptions, or premium tiers.
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            Can I generate multiple workout plans?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            To ensure fair usage and maintain our high-quality service for everyone, each user can generate one personalized workout plan. This helps us manage our AI resources effectively while providing the best experience for all users.
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            How accurate are the AI-generated workouts?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Our AI is trained on thousands of successful workout programs and fitness principles. It creates evidence-based plans tailored to your specific profile with a 94% success rate among our users.
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            Do I need gym equipment to follow the workouts?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Our AI creates workout plans that can be adapted to your available equipment. Whether you have a full gym, basic equipment, or just bodyweight, we'll craft something that works for you.
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            How often should I update my workout plan?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            We recommend following your plan for 4-6 weeks to see optimal results. Your FlexForge plan is designed to provide progressive challenge and adaptation during this timeframe.
+                        </div>
+                    </div>
+
+                    <div class="faq-item scroll-animate">
+                        <button class="faq-question">
+                            Is FlexForge suitable for beginners?
+                            <span class="faq-icon">+</span>
+                        </button>
+                        <div class="faq-answer">
+                            Definitely! Our AI considers your fitness level when creating plans. Beginners get gentle introduction programs with proper progression, while experienced athletes get challenging routines.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sample Plan Section -->
+            <section class="success-stories scroll-animate" id="sample-plan">
+                <div class="section-header scroll-animate">
+                    <h2 class="section-title">Sample Workout Plan</h2>
+                    <p class="section-subtitle">See what a FlexForge-crafted workout looks like</p>
+                </div>
+
+                <div class="stories-grid">
+                    <div class="story-card scroll-animate-left">
+                        <h3 style="color: var(--primary-color); font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 16px;">Day 1: Upper Body Strength</h3>
+                        <div style="text-align: left; color: var(--gray-700);">
+                            <p style="margin-bottom: 8px;"><strong>Push-ups:</strong> 3 sets × 8-12 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Dumbbell Rows:</strong> 3 sets × 10-12 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Shoulder Press:</strong> 3 sets × 8-10 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Bicep Curls:</strong> 2 sets × 12-15 reps</p>
+                            <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: 12px;">Duration: ~35 minutes</p>
+                        </div>
+                    </div>
+                    <div class="story-card scroll-animate-scale">
+                        <h3 style="color: var(--primary-color); font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 16px;">Day 2: Lower Body Power</h3>
+                        <div style="text-align: left; color: var(--gray-700);">
+                            <p style="margin-bottom: 8px;"><strong>Squats:</strong> 3 sets × 12-15 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Lunges:</strong> 3 sets × 10 per leg</p>
+                            <p style="margin-bottom: 8px;"><strong>Deadlifts:</strong> 3 sets × 8-10 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Calf Raises:</strong> 2 sets × 15-20 reps</p>
+                            <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: 12px;">Duration: ~40 minutes</p>
+                        </div>
+                    </div>
+                    <div class="story-card scroll-animate-right">
+                        <h3 style="color: var(--primary-color); font-family: 'Space Grotesk', sans-serif; font-weight: 600; margin-bottom: 16px;">Day 3: Cardio & Core</h3>
+                        <div style="text-align: left; color: var(--gray-700);">
+                            <p style="margin-bottom: 8px;"><strong>Jumping Jacks:</strong> 3 sets × 30 seconds</p>
+                            <p style="margin-bottom: 8px;"><strong>Plank:</strong> 3 sets × 45 seconds</p>
+                            <p style="margin-bottom: 8px;"><strong>Mountain Climbers:</strong> 3 sets × 20 reps</p>
+                            <p style="margin-bottom: 8px;"><strong>Russian Twists:</strong> 2 sets × 20 reps</p>
+                            <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: 12px;">Duration: ~25 minutes</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Coming Soon Section -->
+            <section class="how-it-works scroll-animate" id="coming-soon">
+                <div class="section-header scroll-animate">
+                    <h2 class="section-title">Coming Soon: FlexForge Pro</h2>
+                    <p class="section-subtitle">The future of AI-powered fitness is being forged right now</p>
+                </div>
+
+                <div class="steps-grid">
+                    <div class="step-card scroll-animate-left">
+                        <div class="step-number">🎯</div>
+                        <h3 class="step-title">Ultra-Precise AI</h3>
+                        <p class="step-description">Advanced AI models with 99.7% accuracy, considering your medical history, injury prevention, and biomechanical analysis for truly personalized training.</p>
+                    </div>
+                    <div class="step-card scroll-animate">
+                        <div class="step-number">🍎</div>
+                        <h3 class="step-title">Complete Nutrition Plans</h3>
+                        <p class="step-description">AI-generated meal plans, macro tracking, and grocery lists perfectly synchronized with your workout goals and dietary preferences.</p>
+                    </div>
+                    <div class="step-card scroll-animate-right">
+                        <div class="step-number">📊</div>
+                        <h3 class="step-title">Progress Analytics</h3>
+                        <p class="step-description">Real-time progress tracking, adaptive plan adjustments, and detailed insights to optimize your fitness journey with data-driven precision.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 60px; padding: 0 40px;">
+                    <div style="background: linear-gradient(135deg, var(--gray-50), var(--gray-100)); border-radius: 20px; padding: 40px; max-width: 600px; margin: 0 auto; border: 2px solid var(--gray-200);">
+                        <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--gray-900); margin-bottom: 16px;">✨ Pro Features Preview</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin: 24px 0;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 8px;">🏃‍♂️</div>
+                                <div style="font-weight: 600; color: var(--gray-800); font-size: 0.9rem;">Recovery Optimization</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 8px;">⚡</div>
+                                <div style="font-weight: 600; color: var(--gray-800); font-size: 0.9rem;">Unlimited Plans</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 8px;">🎵</div>
+                                <div style="font-weight: 600; color: var(--gray-800); font-size: 0.9rem;">Workout Playlists</div>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 1.5rem; margin-bottom: 8px;">📱</div>
+                                <div style="font-weight: 600; color: var(--gray-800); font-size: 0.9rem;">Mobile App</div>
+                            </div>
+                        </div>
+                        <p style="color: var(--gray-600); margin-bottom: 20px; font-size: 0.95rem;">Be the first to know when FlexForge Pro launches</p>
+                        <button style="background: linear-gradient(135deg, var(--warning-color), #f59e0b); color: white; border: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'" onclick="notifyMeClicked(this)">
+                            Notify Me When Available
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Form Section (Hidden by default) -->
+    <div id="planFormPage" class="main-content">
+        <section class="form-section active">
+            <div class="form-header">
+                <h2>Forge Your Fitness Plan</h2>
+                <p>Provide your details below to craft a customized workout program designed for your success</p>
+            </div>
+
+            <div class="form-container">
+                <!-- Session Notice (hidden by default) -->
+                <div id="sessionNotice" class="session-notice hidden">
+                    <h3>✨ Plan Already Generated</h3>
+                    <p>You've already generated your personalized workout plan. To ensure fair usage and maintain our high-quality service for everyone, only one plan per user is allowed.</p>
+                    <small>Thank you for using FlexForge responsibly!</small>
+                </div>
+
+                <form id="workoutForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="16" max="80" required placeholder="Enter your age">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required placeholder="Your current weight">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="height">Height (cm)</label>
+                            <input type="number" id="height" name="height" min="120" max="250" required placeholder="Your height">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="workoutDaysPerWeek">Training Frequency</label>
+                            <select id="workoutDaysPerWeek" name="workoutDaysPerWeek" required>
+                                <option value="">Select frequency</option>
+                                <option value="2">2 sessions per week</option>
+                                <option value="3">3 sessions per week</option>
+                                <option value="4">4 sessions per week</option>
+                                <option value="5">5 sessions per week</option>
+                                <option value="6">6 sessions per week</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fitnessGoal">Primary Goal</label>
+                            <select id="fitnessGoal" name="fitnessGoal" required>
+                                <option value="">Choose your primary goal</option>
+                                <option value="weight_loss">Weight Loss & Fat Reduction</option>
+                                <option value="muscle_gain">Muscle Building & Strength</option>
+                                <option value="maintenance">Fitness Maintenance</option>
+                                <option value="endurance">Endurance & Cardio</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Forge My Workout Plan
+                    </button>
+                </form>
+
+                <div class="loading" id="loading">
+                    <div class="loading-spinner"></div>
+                    <p class="loading-text">Forging your personalized workout plan with AI precision...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results" id="results">
+            <!-- Results will be populated here -->
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">FlexForge ⚡</div>
+            <p class="footer-text">Precision fitness planning powered by advanced AI technology</p>
+            
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+                <a href="#">About Us</a>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 FlexForge. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Session management constants
+        const SESSION_KEY = 'flexforge_session';
+        const PLAN_GENERATED_KEY = 'flexforge_plan_generated';
+        const GENERATION_TIME_KEY = 'flexforge_generation_time';
+
+        // Page state management
+        let currentPage = 'landing';
+
+        // Session management functions
+        function checkSessionStatus() {
+            const planGenerated = sessionStorage.getItem(PLAN_GENERATED_KEY);
+            const generationTime = sessionStorage.getItem(GENERATION_TIME_KEY);
+            
+            if (planGenerated === 'true') {
+                updateUIForGeneratedState(generationTime);
+                return true;
+            }
+            return false;
+        }
+
+        function markPlanAsGenerated() {
+            const currentTime = new Date().toISOString();
+            sessionStorage.setItem(PLAN_GENERATED_KEY, 'true');
+            sessionStorage.setItem(GENERATION_TIME_KEY, currentTime);
+        }
+
+        function updateUIForGeneratedState(generationTime) {
+            // Update CTA buttons
+            const navCtaBtn = document.getElementById('navCtaBtn');
+            const heroCtaBtn = document.getElementById('heroCtaBtn');
+            const sessionNotice = document.getElementById('sessionNotice');
+            const submitBtn = document.getElementById('submitBtn');
+            const form = document.getElementById('workoutForm');
+
+            // Disable CTA buttons
+            navCtaBtn.classList.add('disabled');
+            navCtaBtn.textContent = 'Plan Generated';
+            navCtaBtn.onclick = null;
+
+            heroCtaBtn.classList.add('disabled');
+            heroCtaBtn.textContent = 'Plan Already Generated';
+            heroCtaBtn.onclick = null;
+
+            // Show session notice
+            sessionNotice.classList.remove('hidden');
+
+            // Disable form
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Plan Already Generated';
+            
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => input.disabled = true);
+
+            // Update generation time in notice
+            if (generationTime) {
+                const date = new Date(generationTime);
+                const timeString = date.toLocaleString();
+                const timeElement = sessionNotice.querySelector('small');
+                if (timeElement) {
+                    timeElement.innerHTML = `Generated at: ${timeString}. Thank you for using FlexForge responsibly!`;
+                }
+            }
+        }
+
+        function showPlanForm() {
+            // Check if plan already generated
+            if (checkSessionStatus()) {
+                // If on landing page, scroll to form to show the notice
+                if (currentPage === 'landing') {
+                    document.getElementById('landingPage').style.display = 'none';
+                    document.getElementById('planFormPage').style.display = 'block';
+                    currentPage = 'form';
+                    window.scrollTo(0, 0);
+                }
+                return;
+            }
+
+            document.getElementById('landingPage').style.display = 'none';
+            document.getElementById('planFormPage').style.display = 'block';
+            currentPage = 'form';
+            window.scrollTo(0, 0);
+        }
+
+        function showLandingPage() {
+            document.getElementById('landingPage').style.display = 'block';
+            document.getElementById('planFormPage').style.display = 'none';
+            currentPage = 'landing';
+            window.scrollTo(0, 0);
+        }
+
+        // Back to landing when clicking logo
+        document.querySelector('.logo').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (currentPage === 'form') {
+                showLandingPage();
+            }
+        });
+
+        // Scroll Animation Observer
+        function setupScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.scroll-animate, .scroll-animate-left, .scroll-animate-right, .scroll-animate-scale');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animatedElements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        // Counter Animation Function
+        function animateCounter(element, target, suffix = '', duration = 2000) {
+            const start = 0;
+            const increment = target / (duration / 16);
+            let current = start;
+            
+            element.classList.add('counting');
+            
+            const timer = setInterval(() => {
+                current += increment;
+                
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                    element.classList.remove('counting');
+                }
+                
+                // Handle different display formats
+                let displayValue;
+                if (target === 247) {
+                    displayValue = '24/7';
+                } else {
+                    displayValue = Math.floor(current) + suffix;
+                }
+                
+                element.textContent = displayValue;
+            }, 16);
+        }
+
+        // Intersection Observer for counter animation
+        function setupCounterObserver() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = parseInt(entry.target.dataset.target);
+                        const suffix = entry.target.dataset.suffix || '';
+                        
+                        const delay = Array.from(counters).indexOf(entry.target) * 300;
+                        
+                        setTimeout(() => {
+                            animateCounter(entry.target, target, suffix);
+                        }, delay);
+                        
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        // FAQ Toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all other FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Toggle current item
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize animations and check session on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupScrollAnimations();
+            setupCounterObserver();
+            checkSessionStatus(); // Check session status on page load
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href !== '#') {
+                    e.preventDefault();
+                    
+                    // If we're on the form page and clicking a nav link, go back to landing first
+                    if (currentPage === 'form' && !href.includes('get-plan')) {
+                        showLandingPage();
+                        // Wait for page transition, then scroll
+                        setTimeout(() => {
+                            const target = document.querySelector(href);
+                            if (target) {
+                                target.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }
+                        }, 100);
+                    } else if (currentPage === 'landing') {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                        }
+                    }
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('workoutForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Double-check session status before submission
+            if (checkSessionStatus()) {
+                alert('Plan already generated. Thank you for using FlexForge responsibly!');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            results.style.display = 'none';
+            
+            const formData = new FormData(e.target);
+            const profile = {
+                age: parseInt(formData.get('age')),
+                weight: parseFloat(formData.get('weight')),
+                height: parseFloat(formData.get('height')),
+                workoutDaysPerWeek: parseInt(formData.get('workoutDaysPerWeek')),
+                fitnessGoal: formData.get('fitnessGoal')
+            };
+            
+            try {
+                const response = await fetch('http://workout-planner-production-83e9.up.railway.app/api/workout/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(profile)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const workoutPlan = await response.json();
+                displayWorkoutReport(workoutPlan, profile);
+                
+                // Mark plan as generated in session
+                markPlanAsGenerated();
+                updateUIForGeneratedState(new Date().toISOString());
+                
+            } catch (error) {
+                console.error('Error calling backend:', error);
+                results.innerHTML = `<div class="error">Unable to connect to FlexForge servers. Please ensure your backend is running</div>`;
+                results.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function displayWorkoutReport(plan, profile) {
+            const results = document.getElementById('results');
+            const currentDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            const heightInMeters = profile.height / 100;
+            const bmi = (profile.weight / (heightInMeters * heightInMeters)).toFixed(1);
+            
+            let html = `
+                <div class="report-header">
+                    <h2 class="report-title">Your FlexForge Fitness Blueprint</h2>
+                    <p class="report-subtitle">Precision-crafted workout plan forged specifically for your goals and profile</p>
+                    
+                    <div class="report-meta">
+                        <div class="meta-item">
+                            <div class="meta-icon"></div>
+                            <span>Forged: ${currentDate}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon"></div>
+                            <span>Age: ${profile.age} years</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon"></div>
+                            <span>BMI: ${bmi}</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-icon"></div>
+                            <span>Frequency: ${profile.workoutDaysPerWeek} days/week</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="report-content">
+                    <div class="workout-week">
+                        <div class="week-header">
+                            <h3 class="week-title">Weekly Training Blueprint</h3>
+                        </div>
+                        
+                        <div class="workout-grid">
+            `;
+            
+            plan.weeklySchedule.forEach((day, index) => {
+                const estimatedDuration = calculateDuration(day.exercises);
+                
+                html += `
+                    <div class="workout-day">
+                        <div class="day-header">
+                            <h4 class="day-title">${day.day}</h4>
+                            <span class="day-duration">~${estimatedDuration} min</span>
+                        </div>
+                        <ul class="exercise-list">
+                `;
+                
+                day.exercises.forEach(exercise => {
+                    html += `
+                        <li class="exercise-item">
+                            <span class="exercise-name">${exercise.name}</span>
+                            <span class="exercise-specs">${exercise.sets} sets × ${exercise.reps}</span>
+                        </li>
+                    `;
+                });
+                
+                html += '</ul></div>';
+            });
+            
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            if (plan.notes) {
+                html += `
+                    <div class="report-notes">
+                        <h4 class="notes-title">FlexForge Professional Guidelines</h4>
+                        <p class="notes-content">${plan.notes}</p>
+                    </div>
+                `;
+            }
+            
+            results.innerHTML = html;
+            results.style.display = 'block';
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function calculateDuration(exercises) {
+            const baseTimePerExercise = 3;
+            const restTime = 1;
+            return Math.round(exercises.length * (baseTimePerExercise + restTime));
+        }
+
+        // Pro notification function
+        function notifyMeClicked(button) {
+            const originalText = button.textContent;
+            button.textContent = '✅ You\'ll be notified!';
+            button.style.background = 'var(--success-color)';
+            button.disabled = true;
+            
+            // Simulate storing email (in real app, you'd collect email first)
+            setTimeout(() => {
+                button.style.background = 'linear-gradient(135deg, var(--success-color), #10b981)';
+            }, 500);
+            
+            // Show a success message
+            const successMsg = document.createElement('div');
+            successMsg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--success-color);
+                color: white;
+                padding: 16px 24px;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideInDown 0.5s ease;
+                box-shadow: var(--shadow-lg);
+            `;
+            successMsg.textContent = '🚀 Thanks! We\'ll notify you when FlexForge Pro launches!';
+            document.body.appendChild(successMsg);
+            
+            // Remove success message after 3 seconds
+            setTimeout(() => {
+                successMsg.remove();
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
